@@ -2,8 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const crypto = require("crypto");
+const dns = require("dns");
 const nodemailer = require("nodemailer");
 const Razorpay = require("razorpay");
+
+// Render's outbound network often prefers IPv6, but routing from
+// Render to Gmail's SMTP servers over IPv6 frequently times out.
+// Forcing IPv4 first fixes the "Connection timeout" / ETIMEDOUT error.
+dns.setDefaultResultOrder("ipv4first");
 
 const User = require("./model/user");
 const Medicine = require("./model/medicine");
@@ -41,6 +47,7 @@ const mailTransporter = nodemailer.createTransport({
   connectionTimeout: 15000, // 15s to connect to Gmail
   greetingTimeout: 15000,
   socketTimeout: 15000,
+  family: 4, // force IPv4 - avoids Render's broken IPv6 route to Gmail
 });
 
 // In-memory OTP store: email -> { otp, expiresAt, formData }
