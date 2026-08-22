@@ -1,0 +1,335 @@
+/* ===================== Layout shell ===================== */
+
+.db-page {
+  min-height: 100vh;
+  background: #f4f7fb;
+}
+
+.db-topbar {
+  height: 64px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e9f0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.db-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.db-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.db-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.db-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.db-logout-btn {
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.db-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* ===================== Sidebar ===================== */
+
+.db-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e5e9f0;
+  min-height: calc(100vh - 64px);
+  padding: 20px 12px;
+  position: sticky;
+  top: 64px;
+}
+
+.db-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.db-nav-link:hover {
+  background: #f1f5f9;
+}
+
+.db-nav-link.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* ===================== Main ===================== */
+
+.db-main {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 24px 60px;
+}
+
+.db-welcome h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+  color: #111827;
+}
+
+.db-welcome p {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.db-add-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 11px 20px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===================== Stat cards ===================== */
+
+.db-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin: 22px 0 30px;
+}
+
+.db-stat-card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  border: 1px solid #eef1f6;
+}
+
+.db-stat-label {
+  font-size: 12.5px;
+  color: #6b7280;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.db-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.db-stat-card.warn .db-stat-value { color: #d97706; }
+.db-stat-card.danger .db-stat-value { color: #dc2626; }
+.db-stat-card.good .db-stat-value { color: #16a34a; }
+
+/* ===================== Section cards ===================== */
+
+.db-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  border: 1px solid #eef1f6;
+  margin-bottom: 24px;
+}
+
+.db-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.db-section-head h2 {
+  margin: 0;
+  font-size: 17px;
+  color: #111827;
+}
+
+.db-empty-note {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===================== Medicine rows ===================== */
+
+.db-med-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid #eef1f6;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fafcff;
+  flex-wrap: wrap;
+}
+
+.db-med-info h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.db-med-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.db-med-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.db-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.db-badge.taken { background: #dcfce7; color: #16a34a; }
+.db-badge.pending { background: #fef3c7; color: #b45309; }
+.db-badge.low { background: #fef3c7; color: #b45309; }
+.db-badge.empty { background: #fee2e2; color: #dc2626; }
+.db-badge.ok { background: #e0e7ff; color: #4338ca; }
+
+.db-btn-confirm {
+  border: none;
+  background: #16a34a;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.db-btn-confirm:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.db-btn-order {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* ===================== Responsive ===================== */
+
+@media (max-width: 1100px) {
+  .db-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .db-sidebar {
+    display: none;
+  }
+
+  .db-main {
+    padding: 20px 14px 50px;
+  }
+}
+
+@media (max-width: 620px) {
+  .db-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .db-stat-card {
+    padding: 14px;
+  }
+
+  .db-stat-value {
+    font-size: 21px;
+  }
+
+  .db-section {
+    padding: 16px;
+  }
+
+  .db-med-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .db-topbar {
+    padding: 0 14px;
+  }
+
+  .db-user-chip span.db-user-name {
+    display: none;
+  }
+}

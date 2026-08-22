@@ -1,0 +1,5 @@
+{
+  "appId": "com.medreminder.app",
+  "appName": "frontend",
+  "webDir": "dist"
+}

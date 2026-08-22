@@ -1,0 +1,57 @@
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+                  background-image: url("./assets/bacground img.webp");
+                  background-size: cover;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                 
+        }
+.container {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px;
+        }
+
+        h2 {
+          font-family: serif;
+          font-size: xx-large;
+            text-align: center;
+            color: rgb(7, 8, 9);
+        }
+
+        input,
+        select {
+           
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+
+        }
+        label {
+          font-family:fantasy;
+           font-size: medium;
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: auto;
+            background: blue;
+            color: aliceblue;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: rgb(57, 173, 139);
+        }
+
+      
