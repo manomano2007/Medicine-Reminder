@@ -2,14 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const crypto = require("crypto");
-const dns = require("dns");
-const nodemailer = require("nodemailer");
 const Razorpay = require("razorpay");
-
-// Render's outbound network often prefers IPv6, but routing from
-// Render to Gmail's SMTP servers over IPv6 frequently times out.
-// Forcing IPv4 first fixes the "Connection timeout" / ETIMEDOUT error.
-dns.setDefaultResultOrder("ipv4first");
 
 const User = require("./model/user");
 const Medicine = require("./model/medicine");
@@ -35,28 +28,21 @@ const razorpay = new Razorpay({
 
 
 // =====================================
-// Email (OTP) - Nodemailer
+// Email (OTP) - sent over HTTPS via the
+// Brevo API (NOT raw SMTP). Render's free
+// tier blocks outbound SMTP ports (465/587),
+// which is why Gmail SMTP timed out - the
+// Brevo HTTP API uses port 443, which is
+// never blocked.
 // =====================================
-
-const mailTransporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  connectionTimeout: 15000, // 15s to connect to Gmail
-  greetingTimeout: 15000,
-  socketTimeout: 15000,
-  family: 4, // force IPv4 - avoids Render's broken IPv6 route to Gmail
-});
 
 // In-memory OTP store: email -> { otp, expiresAt, formData }
 // Good enough for a short-lived (5 min) OTP window.
 const otpStore = new Map();
 
-if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+if (!process.env.BREVO_API_KEY || !process.env.EMAIL_USER) {
   console.log(
-    "⚠️  EMAIL_USER / EMAIL_PASS not set - OTP emails will fail. " +
+    "⚠️  BREVO_API_KEY / EMAIL_USER not set - OTP emails will fail. " +
     "Add them in Render > Environment."
   );
 }
@@ -68,20 +54,33 @@ function generateOtp() {
 }
 
 async function sendOtpEmail(email, otp) {
-  await mailTransporter.sendMail({
-    from: `"MedReminder" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Your MedReminder verification code",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: auto;">
-        <h2 style="color:#2563eb;">💊 MedReminder</h2>
-        <p>Use the code below to verify your email and complete registration:</p>
-        <p style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color:#2563eb;">${otp}</p>
-        <p>This code expires in 5 minutes. If you didn't request this, you can ignore this email.</p>
-      </div>
-    `,
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: "MedReminder", email: process.env.EMAIL_USER },
+      to: [{ email }],
+      subject: "Your MedReminder verification code",
+      htmlContent: `
+        <div style="font-family: Arial, sans-serif; max-width: 480px; margin: auto;">
+          <h2 style="color:#2563eb;">💊 MedReminder</h2>
+          <p>Use the code below to verify your email and complete registration:</p>
+          <p style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color:#2563eb;">${otp}</p>
+          <p>This code expires in 5 minutes. If you didn't request this, you can ignore this email.</p>
+        </div>
+      `,
+    }),
   });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Brevo send failed (${response.status}): ${errorText}`);
+  }
 }
+
 
 
 // =====================================
